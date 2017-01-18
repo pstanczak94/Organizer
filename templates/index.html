@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Organizer{% endblock %}
+
+{% block content-title %}Strona główna{% endblock %}
+
+{% block content %}
+	<style>
+		.welcome-message {
+			margin: 20px 10px;
+			text-align: center;
+			font-family: Verdana;
+			font-size: 16px;
+		}
+	</style>
+	
+	<p class="welcome-message">
+		Witaj w mojej aplikacji webowej!
+		<br/><br/>
+		Aby korzystać z organizera musisz się zalogować.
+		<br/>
+		Jeżeli dopiero zaczynasz to 
+		<a href="{% url 'create' %}">załóż konto</a>.
+		<br/><br/>
+		Przejdź do 
+		<a href="{% url 'jobs:index' %}">zadań</a>
+		lub
+		<a href="{% url 'meetings:index' %}">spotkań</a>
+		aby rozpocząć.
+	</p>
+{% endblock %}

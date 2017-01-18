@@ -1,0 +1,73 @@
+{% extends 'meetings/base.html' %}
+
+{% block content-title %}Podgląd spotkania{% endblock %}
+
+{% block content %}
+	{% if not error %}
+	    <style>
+	        .meetingHeader {
+				color: brown;
+				font-weight: bold;
+			}
+			#meetingInfo p {
+				margin: 20px 10px;
+				font-family: Verdana;
+				font-size: 16px;
+			}
+	    </style>
+		
+		<div id="meetingInfo">
+		
+	    <p>
+	        <span class="meetingHeader">Tytuł spotkania:</span>
+	        <span>{{ meeting.title }}</span>
+	    </p>
+	
+		{% if meeting.description %}
+	        <p>
+	            <span class="meetingHeader">Notatki:</span>
+	            <span>{{ meeting.description | linebreaksbr }}</span>
+	        </p>
+		{% endif %}
+	
+	    <p>
+	        <span class="meetingHeader">Data rozpoczęcia:</span>
+	        <span>{{ meeting.begin | date }}</span>
+	    </p>
+	
+	    <p>
+	        <span class="meetingHeader">Data zakończenia:</span>
+	        <span>{{ meeting.end | date }}</span>
+	    </p>
+	
+		{% if meeting.send_email %}
+	        <p>
+	            <span class="meetingHeader">Data emaila:</span>
+	            <span>{{ meeting.email_date | date }}</span>
+	        </p>
+	
+		    <br/>
+	
+	        <p>
+                {% if meeting.email_was_send %}
+                    <span>Email z przypomnieniem został już wysłany.</span>
+                {% else %}
+                    <span>Email nie został jeszcze wysłany.</span>
+                {% endif %}
+	        </p>
+		{% endif %}
+		
+		</div>
+	
+		<br/>
+	
+		<a class="btn btn-danger" href="{% url 'meetings:remove' meeting.id %}">Usuń spotkanie</a>
+		<a class="btn btn-info" href="{% url 'meetings:index' %}">Lista spotkań</a>
+	{% else %}
+	    <p>{{ error }}</p>
+	
+		<br/>
+	
+		<button class="btn btn-default" onclick="javascript:history.go(-1)">Powrót</button>
+	{% endif %}
+{% endblock %}

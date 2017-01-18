@@ -1,0 +1,20 @@
+{% extends 'meetings/base.html' %}
+
+{% block content-title %}Dodawanie spotkania{% endblock %}
+
+{% block content %}
+	{% if not error %}
+		<p>Zaplanowano spotkanie!</p>
+	
+		<br/>
+	
+		<a class="btn btn-primary" href="{% url 'meetings:show' meeting.id %}">Podgląd spotkania</a>
+		<a class="btn btn-info" href="{% url 'meetings:index' %}">Lista spotkań</a>
+	{% else %}
+	    <p>{{ error }}</p>
+	
+		<br/>
+	
+		<button class="btn btn-default" onclick="javascript:history.go(-1)">Powrót</button>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+.jobList {
+	margin: 0px;
+}
+
+.jobListItem {
+	margin: 0px;
+	padding: 5px 0px;
+	font-size: 20px;
+}
+
+.jobTitleLink:link, .jobTitleLink:visited {
+	color: green;
+	text-decoration: none;
+}
+
+.jobTitleLink:hover, .jobTitleLink:active {
+	color: purple;
+	text-decoration: underline;
+}
+
+.deleteLink:link, .deleteLink:visited {
+	margin: 0px 10px;
+	padding: 3px 10px;
+	border: 1px solid black;
+	color: red;
+	background-color: yellow;
+	text-decoration: none;
+	font-family: Verdana;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.deleteLink:hover, .deleteLink:active {
+	font-weight: bold;
+	background-color: orange;
+	color: black;
+}
+
+.noJobsInfo {
+	margin: 10px 20px;
+	font-size: 20px;
+}

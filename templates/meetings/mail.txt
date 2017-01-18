@@ -1,0 +1,16 @@
+Przypomnienie o nadchodzącym spotkaniu!
+\n\n
+
+Tytuł: {{ meeting.title }}
+\n\n
+
+{% if meeting.description != "" %}
+    Notatki: {{ meeting.description }}
+	\n\n
+{% endif %}
+
+Data: {{ meeting.begin | date }}
+\n\n
+
+Pozdrawiamy!
+\n\n

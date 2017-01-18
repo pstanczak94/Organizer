@@ -1,0 +1,60 @@
+{% extends 'meetings/base.html' %}
+
+{% block content-title %}Lista zaplanowanych spotkań{% endblock %}
+
+{% block content %}
+	<style>
+		.meetingsList {
+			margin: 0px;
+		}
+		.meetingsListItem {
+			margin: 0px;
+			padding: 5px 0px;
+			font-family: Verdana;
+			font-size: 18px;
+		}
+		.meetingTitle {
+			color: blue;
+		}
+		.meetingTitle:hover {
+			color: maroon;
+		}
+		.meetingTime {
+			font-size: 14px;
+		}
+		.meetingRemove {
+			margin: auto 10px;
+		}
+		.noMeetingsInfo {
+			margin: 10px 20px;
+			font-size: 20px;
+		}
+	</style>
+
+	{% if meetings %}
+		<ol class="meetingsList">
+			{% for meeting in meetings %}
+			<li class="meetingsListItem">
+				<a class="meetingTitle" 
+					href="{% url 'meetings:show' meeting.id %}" 
+					data-toggle="tooltip" data-placement="bottom" 
+					title="Podgląd spotkania">
+					{{ meeting.title }}</a>
+				<span class="meetingTime" 
+					data-toggle="tooltip" data-placement="bottom" 
+					title="Data rozpoczęcia spotkania">
+					({{ meeting.begin | date }})</span>
+				<a class="btn btn-danger btn-xs meetingRemove" 
+					href="{% url 'meetings:remove' meeting.id %}">
+					Usuń</a>
+			</li>
+			{% endfor %}
+		</ol>
+	{% else %}
+		<p class="noMeetingsInfo">Brak zaplanowanych spotkań.</p>
+	{% endif %}
+
+	<br/>
+
+	<a class="btn btn-success" href="{% url 'meetings:add' %}">Utwórz spotkanie</a>
+{% endblock %}

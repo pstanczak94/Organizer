@@ -1,0 +1,198 @@
+{% extends 'meetings/base.html' %}
+
+{% block content-title %}Tworzenie spotkania{% endblock %}
+
+{% block content %}
+	<script type="text/javascript">
+	    var sendEmailCheckBox = 'input[name=send_email]'
+	    var emailDateInput = 'input[name=email_date]'
+	    var emailDateBlock = '#email_date_block'
+	    var datePickerBegin = '#datetimepicker1'
+	    var datePickerEnd = '#datetimepicker2'
+	    var datePickerEmail = '#datetimepicker3'
+
+		function onSendEmailChange() {
+		    if ($(sendEmailCheckBox).is(":checked")) {
+		    	$(emailDateBlock).stop().fadeIn(500);
+		    	$(emailDateInput).attr('required', "required");
+		    } else {
+	    		$(emailDateBlock).stop().fadeOut(500);
+		    	$(emailDateInput).removeAttr('required');
+            }
+		}
+		
+		function getCurrentDate() { return moment(new Date()); }
+		function getBeginDate() { return $(datePickerBegin).data("DateTimePicker").date(); }
+		function getEndDate() { return $(datePickerEnd).data("DateTimePicker").date(); }
+		function getEmailDate() { return $(datePickerEmail).data("DateTimePicker").date(); }
+
+		function checkDatesAreValid() {
+		    var beginDate = getBeginDate();
+		    var endDate = getEndDate();
+		    if (beginDate == null && endDate == null) {
+		        $(datePickerBegin).removeClass('has-warning has-error has-success');
+		        $(datePickerEnd).removeClass('has-warning has-error has-success');
+		    } else if (beginDate == null && endDate != null) {
+		        $(datePickerBegin).removeClass('has-error has-success').addClass('has-warning');
+		        $(datePickerEnd).removeClass('has-warning has-error').addClass('has-success');
+		    } else if (endDate == null && beginDate != null) {
+		        $(datePickerBegin).removeClass('has-warning has-error').addClass('has-success');
+		        $(datePickerEnd).removeClass('has-error has-success').addClass('has-warning');
+		    } else if (beginDate.isSameOrBefore(endDate)) {
+		        $(datePickerBegin).removeClass('has-warning has-error').addClass('has-success');
+		        $(datePickerEnd).removeClass('has-warning has-error').addClass('has-success');
+		    } else {
+		        $(datePickerBegin).removeClass('has-warning has-success').addClass('has-error');
+		        $(datePickerEnd).removeClass('has-warning has-success').addClass('has-error');
+		    }
+		    
+		    var emailDate = getEmailDate();
+		    if (emailDate == null && beginDate != null) {
+		    	$(datePickerEmail).removeClass('has-error has-success').addClass('has-warning');
+		    } else if (emailDate == null && beginDate == null) {
+		    	$(datePickerEmail).removeClass('has-warning has-error has-success');
+		    } else if (emailDate != null && beginDate != null && beginDate.isSameOrBefore(emailDate)) {
+		    	$(datePickerEmail).removeClass('has-warning has-success').addClass('has-error');
+		    } else {
+		    	$(datePickerEmail).removeClass('has-warning has-error').addClass('has-success');
+		    }
+		}
+
+		function setMinMaxDates() {
+            if (getBeginDate() == null) {
+                $(datePickerEnd).data("DateTimePicker").minDate(getCurrentDate());
+                $(datePickerEmail).data("DateTimePicker").maxDate(false);
+            } else {
+                $(datePickerEnd).data("DateTimePicker").minDate(getBeginDate());
+                $(datePickerEmail).data("DateTimePicker").maxDate(getBeginDate());
+            }
+
+            if (getEndDate() == null) {
+                $(datePickerBegin).data("DateTimePicker").maxDate(false);
+            } else {
+                $(datePickerBegin).data("DateTimePicker").maxDate(getEndDate());
+            }
+		}
+
+		function initDateTimePickers() {
+
+		    $(datePickerBegin).datetimepicker({
+		        locale: 'pl',
+		        minDate: getCurrentDate(),
+		        defaultDate: getCurrentDate().add(1,'d').hour(12).minute(0).second(0),
+                useCurrent: false
+		    });
+
+            $(datePickerEnd).datetimepicker({
+		        locale: 'pl',
+		        minDate: getCurrentDate(),
+		        defaultDate: getCurrentDate().add(1,'d').hour(12).minute(30).second(0),
+                useCurrent: false
+            });
+
+            $(datePickerEmail).datetimepicker({
+		        locale: 'pl',
+		        minDate: getCurrentDate(),
+		        defaultDate: getCurrentDate().add(1,'d').hour(11).minute(30).second(0),
+                useCurrent: false
+            });
+            
+            $(datePickerBegin).on("dp.change", function (e) {
+                checkDatesAreValid();
+                if (e.date != false) {
+	                $(datePickerEnd).data("DateTimePicker").date(moment(e.date).add(10,'m'));
+	                $(datePickerEmail).data("DateTimePicker").date(moment(e.date).subtract(10,'m'));
+                }
+            });
+
+            $(datePickerEnd).on("dp.change", function (e) {
+                checkDatesAreValid();
+            });
+            
+            $(datePickerEmail).on("dp.change", function (e) {
+                checkDatesAreValid();
+            });
+            
+            checkDatesAreValid();
+		}
+
+		$(document).ready(function() {
+		    initDateTimePickers();
+
+			if ($(sendEmailCheckBox).is(":checked"))
+		    	$(emailDateBlock).show();
+		    else
+	    		$(emailDateBlock).hide();
+
+			$(sendEmailCheckBox).change(onSendEmailChange);
+		});
+	</script>
+
+	<style>
+		textarea[name=description] {
+			width: 50%;
+			max-width: 100%;
+		}
+		div[id^=datetimepicker] {
+			width: 50%;
+		}
+	</style>
+
+	<form action="{% url 'meetings:addsubmit' %}" method="post">
+		{% csrf_token %}
+
+		<label class="control-label" for="title">Tytuł spotkania</label>
+		<input type="text" class="form-control" id="title" name="title" required autofocus />
+
+		<br/>
+
+		<label class="control-label" for="description">Dodatkowe notatki</label>
+		<textarea class="form-control" id="description" name="description" rows="3"></textarea>
+
+		<br/>
+
+		<label class="control-label" for="begin">Data rozpoczęcia</label>
+		<div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" id="begin" name="begin" required />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+
+		<br/>
+
+		<label class="control-label" for="end">Data zakończenia</label>
+		<div class='input-group date' id='datetimepicker2'>
+            <input type='text' class="form-control" id="end" name="end" required />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+
+		<br/>
+
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" id="send_email" name="send_email">
+				Wyślij email z przypomnieniem
+			</label>
+		</div>
+
+		<br/>
+
+		<div id="email_date_block" style="display:none">
+            <label class="control-label" for="email_date">Data emaila</label>
+            <div class='input-group date' id='datetimepicker3'>
+                <input type='text' class="form-control" id="email_date" name="email_date" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+
+		    <br/>
+		</div>
+
+		<button class="btn btn-success" type="submit">Zatwierdź spotkanie</button>
+
+	</form>
+{% endblock %}

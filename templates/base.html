@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+		
+        <meta name="description" content="Aplikacja webowa">
+		<meta name="author" content="Paweł Stańczak">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		{% block metadata %}{% endblock %}
+		
+        <title>{% block title %}Organizer{% endblock %}</title>
+		
+		<link rel="stylesheet" href="{% static 'lib/css/bootstrap.min.css' %}">
+		<link rel="stylesheet" href="{% static 'lib/css/bootstrap-theme.min.css' %}">
+		<link rel="stylesheet" href="{% static 'lib/css/bootstrap-datetimepicker.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/organizer.css' %}">
+        {% block style %}{% endblock %}
+		
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    </head>
+    <body>
+		<script type="text/javascript" src="{% static 'lib/js/jquery-3.1.1.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'lib/js/moment-with-locales.js' %}"></script>
+        <script type="text/javascript" src="{% static 'lib/js/bootstrap.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'lib/js/bootstrap-datetimepicker.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/organizer.js' %}"></script>
+		{% block script %}{% endblock %}
+		
+    	<div id="base-container">
+	    	<div id="main-container">
+				<div id="section-1">
+		            <div id="header">
+		                {% block header %}{% endblock %}
+		            </div>
+		            
+		            <div id="logo-container">
+				    	<div id="logo">
+		                    <a id="logo-link" href="{% url 'index' %}">
+								<img id="logo-image" src="{% static 'images/logo.png' %}" />
+							</a>
+				    	</div>
+			    	</div>
+					
+					<div id="navigation">
+						<div class="navigation-item" id="navigation-item-1">
+	                        <div class="navigation-image-container">
+			                    <a class="navigation-link" id="navigation-link-1" href="{% url 'jobs:index' %}">
+		                            <img class="navigation-image navigation-image-default" id="navigation-image-default-1" 
+				                        src="{% static 'images/zadania_1.png' %}" alt="ZADANIA" />
+		                            <img class="navigation-image navigation-image-hover" id="navigation-image-hover-1" 
+		                                src="{% static 'images/zadania_2.png' %}" alt="ZADANIA" />
+			                    </a>
+	                        </div>
+						</div>
+						<div class="navigation-item" id="navigation-item-2">
+	                        <div class="navigation-image-container">
+			                    <a class="navigation-link" id="navigation-link-2" href="{% url 'meetings:index' %}">
+		                            <img class="navigation-image navigation-image-default" id="navigation-image-default-2" 
+		                               src="{% static 'images/spotkania_1.png' %}" alt="SPOTKANIA" />
+		                            <img class="navigation-image navigation-image-hover" id="navigation-image-hover-2" 
+		                                src="{% static 'images/spotkania_2.png' %}" alt="SPOTKANIA" />
+			                    </a>
+	                        </div>
+		                </div>
+		                <div class="navigation-end"></div>
+					</div>
+				</div>
+				<div id="section-2">
+					<div id="user-info">
+						<div id="user-info-1">
+							{% if user.is_authenticated %}
+								<img id="user-info-avatar-image" src="{% static 'images/avatar-1.jpg' %}" />
+							{% else %}
+								<img id="user-info-avatar-image" src="{% static 'images/avatar-2.jpg' %}" />
+							{% endif %}
+						</div>
+						<div id="user-info-2">
+							{% if user.is_authenticated %}
+								<p id="user-info-who">
+									<span id="user-info-who-label">
+										Użytkownik:
+									</span>
+									
+									{% if user.is_superuser %}
+										<a id="user-info-name-admin" href="{% url 'admin:index' %}">{{ user.username }}</a>
+									{% else %}
+										<span id="user-info-name">{{ user.username }}</span>
+									{% endif %}
+								</p>
+																
+								<a class="btn btn-default btn-sm" href="{% url 'logout' %}">Wyloguj się</a>
+							{% else %}
+								<p id="user-info-not-logged">
+									<span id="user-info-who-label">
+										Nie zalogowano.
+									</span>
+								</p>
+								
+								<a class="btn btn-primary btn-sm" href="{% url 'login' %}">Zaloguj się</a>
+							{% endif %}
+						</div>
+						<div id="user-info-end"></div>
+					</div>
+										
+					<div id="content">
+						<div id="content-title-container">
+							<div id="content-title">
+								<p>{% filter title %}{% block content-title %}Organizer{% endblock %}{% endfilter %}</p>
+							</div>
+						</div>
+					
+						<br/>
+						
+						<div id="content-final">{% block content %}{% endblock %}</div>
+					</div>
+					
+		            <div id="footer">
+		                {% block footer %}<p>Copyright 2016&ndash;2017 by Paweł Stańczak. All rights reserved.</p>{% endblock %}
+		            </div>
+		    	</div>
+	    	</div>
+	    </div>
+    </body>
+</html>

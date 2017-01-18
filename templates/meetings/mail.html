@@ -1,0 +1,39 @@
+<div style="font-family: Verdana;">
+	<h2 style="font-family: Comic Sans MS; color: blue;">
+		Przypomnienie o nadchodzącym spotkaniu!
+	</h2>
+	
+	<p>
+		<span style="font-weight: bold; color: brown;">
+			Tytuł:
+		</span>
+		{{ meeting.title }}
+	</p>
+	
+{% if meeting.description %}
+	<p>
+		<span style="font-weight: bold; color: brown;">
+			Notatki:
+		</span>
+		{{ meeting.description | linebreaksbr }}
+	</p>
+{% endif %}
+	
+	<p>
+		<span style="font-weight: bold; color: brown;">
+			Data rozpoczęcia:
+		</span>
+		{{ meeting.begin | date }}
+	</p>
+	
+	<p>
+		<span style="font-weight: bold; color: brown;">
+			Data zakończenia:
+		</span>
+		{{ meeting.end | date }}
+	</p>
+	
+	<h2 style="font-family: Courier New; color: green;">
+		Pozdrawiamy!
+	</h2>
+</div>

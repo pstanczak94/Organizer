@@ -1,0 +1,32 @@
+<div style="font-family: Verdana;">
+	<h2 style="font-family: Comic Sans MS; color: blue;">
+		Przypomnienie o nadchodzącym zadaniu!
+	</h2>
+	
+	<p>
+		<span style="font-weight: bold; color: brown;">
+			Tytuł zadania:
+		</span>
+		{{ job.title }}
+	</p>
+	
+{% if job.description %}
+	<p>
+		<span style="font-weight: bold; color: brown;">
+			Opis zadania:
+		</span>
+		{{ job.description | linebreaksbr }}
+	</p>
+{% endif %}
+	
+	<p>
+		<span style="font-weight: bold; color: brown;">
+			Data zadania:
+		</span>
+		{{ job.date | date }}
+	</p>
+	
+	<h2 style="font-family: Courier New; color: green;">
+		Pozdrawiamy!
+	</h2>
+</div>

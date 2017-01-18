@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content-title %}
+	Tworzenie konta
+{% endblock %}
+
+{% block content %}
+	<style>
+		.errormessage {
+			margin: 15px 0px;
+			font-family: Arial;
+			font-weight: bold;
+			color: red;
+		}
+		.form-control {
+		}
+		.control-label {
+			text-align: right;
+			padding: 5px 0px;
+			margin: 0px;
+		}
+		.row-fluid {
+			display: flex;
+			align-items: center;
+		}
+		.col-xs-4 {
+			margin: 0px;
+		}
+		.col-xs-8 {
+			margin: 10px 0px;
+			padding: 0px 10px;
+		}
+	</style>
+
+	{% if error %}
+		<p class="errormessage">{{ error }}</p>
+	{% endif %}
+
+		<form action="{% url 'create' %}" method="post">
+			{% csrf_token %}
+			
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<label class="col-xs-4 control-label" for="username">Nazwa użytkownika:</label>
+					<div class="col-xs-8">
+						<input type="text" class="form-control" 
+							id="username" name="username" maxlength="30" value="{{ username }}"
+							required autofocus />
+					</div>
+				</div>
+				
+				<div class="row-fluid">
+					<label class="col-xs-4 control-label" for="password1">Hasło:</label>
+					<div class="col-xs-8">
+						<input type="password" class="form-control" 
+							id="password1" name="password1" maxlength="20" value="{{ password1 }}"
+							required />
+					</div>
+				</div>
+				
+				<div class="row-fluid">
+					<label class="col-xs-4 control-label" for="password2">Potwierdź hasło:</label>
+					<div class="col-xs-8">
+						<input type="password" class="form-control" 
+							id="password2" name="password2" maxlength="20" value="{{ password2 }}"
+							required />
+					</div>
+				</div>
+				<div class="row-fluid">
+					<label class="col-xs-4 control-label" for="email">Adres email:</label>
+					<div class="col-xs-8">
+						<input type="text" class="form-control" 
+							id="email" name="email" maxlength="40" value="{{ email }}"
+							required />
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="col-xs-4"></div>
+					<div class="col-xs-8">
+						<button class="btn btn-success" type="submit">Stwórz konto</button>
+					</div>
+				</div>
+			</div>
+		</form>
+{% endblock %}

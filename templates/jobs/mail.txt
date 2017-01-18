@@ -1,0 +1,16 @@
+Przypomnienie o nadchodzącym zadaniu!
+\n\n
+
+Tytuł: {{ job.title }}
+\n\n
+
+{% if job.description != "" %}
+    Opis: {{ job.description }}
+	\n\n
+{% endif %}
+
+Data: {{ job.date | date }}
+\n\n
+
+Pozdrawiamy!
+\n\n

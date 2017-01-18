@@ -1,0 +1,19 @@
+{% extends 'meetings/base.html' %}
+
+{% block content-title %}Usuwanie spotkania{% endblock %}
+
+{% block content %}
+	{% if not error %}
+		<p>Pomyślnie usunięto zaplanowane spotkanie!</p>
+	
+		<br/>
+	
+		<a class="btn btn-info" href="{% url 'meetings:index' %}">Lista spotkań</a>
+	{% else %}
+	    <p>{{ error }}</p>
+	
+		<br/>
+	
+		<button class="btn btn-default" onclick="javascript:history.go(-1)">Powrót</button>
+	{% endif %}
+{% endblock %}

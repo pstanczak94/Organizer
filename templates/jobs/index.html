@@ -1,0 +1,22 @@
+{% extends 'jobs/base.html' %}
+
+{% block content-title %}Lista zadań{% endblock %}
+
+{% block content %}
+	{% if job_list %}
+		<ul class="jobList">
+			{% for job in job_list %}
+			<li class="jobListItem">
+				<a class="jobTitleLink" href="{% url 'jobs:show' job.id %}">{{ job.title }}</a>
+				<a class="deleteLink" href="{% url 'jobs:remove' job.id %}">Usuń</a>
+			</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p class="noJobsInfo">Brak aktywnych zadań.</p>
+	{% endif %}
+	
+	<br/>
+
+	<a class="btn btn-success" href="{% url 'jobs:add' %}">Utwórz zadanie</a>
+{% endblock %}

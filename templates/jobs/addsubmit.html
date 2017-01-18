@@ -1,0 +1,20 @@
+{% extends 'jobs/base.html' %}
+
+{% block content-title %}Dodawanie zadania{% endblock %}
+
+{% block content %}
+	{% if no_error %}
+		<p>Dodano zadanie!</p>
+		
+		<br/>
+		
+		<a class="btn btn-primary" href="{% url 'jobs:show' id %}">Podgląd zadania</a>
+		<a class="btn btn-info" href="{% url 'jobs:index' %}">Lista zadań</a>
+	{% else %}
+		<p>{{ error_message }}</p>
+		
+		<br/>
+		
+		<button class="btn btn-default" onclick="javascript:history.go(-1)">Powrót</button>
+	{% endif %}
+{% endblock %}

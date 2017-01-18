@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content-title %}
+	Logowanie
+{% endblock %}
+
+{% block content %}
+	<style>
+		.errormessage {
+			margin: 15px 5px;
+			text-align: center;
+			font-family: Arial;
+			font-weight: bold;
+			color: red;
+		}
+		#logintable { border-collapse: collapse; margin: 5px auto; }
+		#logintable td { vertical-align: middle; padding: 5px 0px; }
+		#logintable td:nth-child(1) { text-align: right; }
+		.control-label { margin: 0px; margin-right: 10px; }
+	</style>
+	
+	{% if error %}
+		<p class="errormessage">{{ error }}</p>
+	{% else %}
+		{% if next %}
+			{% if user.is_authenticated %}
+				<p class="errormessage">Twoje konto nie posiada praw dostępu do tej strony.</p>
+			{% else %}
+				<p class="errormessage">Zaloguj się, aby kontynuować.</p>
+			{% endif %}
+		{% endif %}
+	{% endif %}
+
+	{% if not user.is_authenticated %}
+		<form action="{% url 'login' %}" method="post">
+			{% csrf_token %}
+			
+			<table id="logintable">
+				<tr>
+					<td id="username-label">
+						<label class="control-label" for="username">Użytkownik:</label>
+					</td>
+					<td id="username-input">
+						<input class="form-control" type="text" 
+							id="username" name="username" maxlength="30" value="{{ username }}"
+							required autofocus />
+					</td>
+				</tr>
+				<tr>
+					<td id="password-label">
+						<label class="control-label" for="password">Hasło:</label>
+					</td>
+					<td id="password-input">
+						<input class="form-control" type="password" 
+							id="password" name="password" maxlength="20" 
+							required />
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<input class="btn btn-success" type="submit" value="Zaloguj się" />
+					</td>
+				</tr>
+			</table>
+	
+			<input type="hidden" name="next" value="{{ next }}" />
+		</form>
+	{% else %}
+		<p class="text-center">Jesteś już zalogowany, {{ user }}!</p>
+	{% endif %}
+{% endblock %}

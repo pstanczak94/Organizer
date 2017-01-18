@@ -1,0 +1,56 @@
+{% extends 'jobs/base.html' %}
+
+{% block content-title %}Podgląd zadania{% endblock %}
+
+{% block content %}
+	<style>
+		.job_header {
+			color: brown;
+			font-family: Verdana;
+			font-weight: bold;
+		}
+	</style>
+
+	{% if no_error %}
+		<span id="job_title_header" class="job_header">Tytuł:</span>
+		<span id="job_title">{{ title }}</span>
+		
+		<br/><br/>
+		
+		{% if description %}
+			<span id="job_description_header" class="job_header">Opis:</span>
+			<span id="job_description">{{ description | linebreaksbr }}</span>
+	
+			<br/><br/>
+		{% endif %}
+		
+		<span id="job_date_header" class="job_header">Data zadania:</span>
+		<span id="job_date">{{ jobdate | date }}</span>
+	
+		<br/> <br/>
+		
+		{% if sendemail %}
+			<span id="job_emaildate_header" class="job_header">Data emaila:</span>
+			<span id="job_emaildate">{{ emaildate | date }}</span>
+	
+			<br/><br/>
+			
+			{% if emailwassend %}
+				<span id="job_emailwassend">Email z przypomnieniem został już wysłany.</span>
+			{% else %}
+				<span id="job_emailwassend">Email nie został jeszcze wysłany.</span>
+			{% endif %}
+	
+			<br/><br/>
+		{% endif %}
+		
+		<a class="btn btn-danger" href="{% url 'jobs:remove' id %}">Usuń zadanie</a>
+		<a class="btn btn-info" href="{% url 'jobs:index' %}">Lista zadań</a>
+	{% else %}
+		<p>{{ error_message }}</p>
+		
+		<br/>
+		
+		<button class="btn btn-default" onclick="javascript:history.go(-1)">Powrót</button>
+	{% endif %}
+{% endblock %}
