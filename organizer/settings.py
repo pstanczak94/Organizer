@@ -13,7 +13,7 @@ SECRET_KEY = 'xt!@hmdmo4)h^mp&v++qft1xluhqwlkp9u2wi+sr4x=q#fm!yg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-from tools import IsLinux
+from organizer.tools import IsLinux
 
 DEBUG = not IsLinux()
 
@@ -136,8 +136,8 @@ EMAIL_USE_SSL = True
 
 # Apps Settings
 
-CHECK_EMAILS_ENABLED = True
-CHECK_EMAILS_DELAY = 30
+CHECK_EMAILS_ENABLED = False
+CHECK_EMAILS_DELAY = 60
 
 # Logging
 

@@ -7,7 +7,7 @@ from django.views.generic import RedirectView
 from organizer import settings
 from organizer import views
 
-from tools import IsLinux
+from organizer.tools import IsLinux
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
