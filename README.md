@@ -3,6 +3,10 @@
 Jak uruchomić?
 
 ```
+$ python -m pip install django
+```
+
+```
 $ python manage.py makemigrations jobs meetings
 ```
 
